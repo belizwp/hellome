@@ -22,7 +22,7 @@ build:
 
 docker-build:
   stage: package
-  image: docker
+  image: docker:stable
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build -f Dockerfile -t $CI_REGISTRY_IMAGE .
