@@ -46,4 +46,4 @@ database-migrate:
     - echo "flyway.password=" >> ${HOME}/flyway.conf
     - echo "flyway.schemas=test" >> ${HOME}/flyway.conf
   script:
-    - flyway migrate
+    - migrate
