@@ -1,6 +1,7 @@
 stages:
   - build
   - package
+  - migrate
 
 build:
   stage: build
