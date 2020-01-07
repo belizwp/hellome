@@ -16,7 +16,7 @@ build:
       - "sbt-cache/.boot"
       - "sbt-cache/.sbtboot"
   script:
-    - sbt compile dist --supershell=false
+    - sbt clean compile dist --supershell=false
   artifacts:
     paths:
       - target/universal/
