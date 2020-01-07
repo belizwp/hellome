@@ -31,3 +31,11 @@ docker-build:
     - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}
     - docker build -t "$CI_REGISTRY_IMAGE:latest" .
     - docker push "$CI_REGISTRY_IMAGE:latest"
+
+database-migrate:
+  stage: migrate
+  image: flyway/flyway:latest
+  variables:
+    FLYWAY_EDITION: community
+  script:
+    - docker run --rm /sql:/flyway/sql flyway/flyway -url=jdbc:h2:mem:test -user=sa migrate
