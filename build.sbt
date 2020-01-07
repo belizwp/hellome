@@ -35,4 +35,4 @@ packageBin in Universal := {
   originalFileName
 }
 
-lazy val root = (project in file(".")).enablePlugins(play.PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala)
