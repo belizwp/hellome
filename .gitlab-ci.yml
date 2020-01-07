@@ -35,15 +35,11 @@ stages:
 
 database-migrate:
   stage: migrate
-  image:
-    name: flyway/flyway:latest
-    entrypoint: [""]
+  image: docker:stable
+  services:
+    - docker:dind
   variables:
     FLYWAY_EDITION: community
-  before_script:
-    - echo "flyway.url=jdbc:h2:mem:test" >> ${HOME}/flyway.conf
-    - echo "flyway.user=sa" >> ${HOME}/flyway.conf
-    - echo "flyway.password=" >> ${HOME}/flyway.conf
-    - echo "flyway.schemas=test" >> ${HOME}/flyway.conf
   script:
-    - migrate
+    - docker pull flyway/flyway
+    - docker run --rm -v ${PWD}/sql:/flyway/sql flyway/flyway -url=jdbc:h2:mem:test -user=sa migrate
