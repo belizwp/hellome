@@ -1,46 +1,43 @@
 stages:
-  - build
-  - package
+#  - build
+#  - package
   - migrate
-
-build:
-  stage: build
-  image: hseeberger/scala-sbt:8u222_1.3.4_2.13.1
-  variables:
-    SBT_OPTS: "-Dsbt.global.base=sbt-cache/.sbtboot -Dsbt.boot.directory=sbt-cache/.boot -Dsbt.ivy.home=sbt-cache/.ivy"
-#  cache:
-#    key: "$CI_BUILD_REF_NAME" # contains either the branch or the tag, so it's caching per branch
-#    untracked: true
+#
+#build:
+#  stage: build
+#  image: hseeberger/scala-sbt:8u222_1.3.4_2.13.1
+#  variables:
+#    SBT_OPTS: "-Dsbt.global.base=sbt-cache/.sbtboot -Dsbt.boot.directory=sbt-cache/.boot -Dsbt.ivy.home=sbt-cache/.ivy"
+##  cache:
+##    key: "$CI_BUILD_REF_NAME" # contains either the branch or the tag, so it's caching per branch
+##    untracked: true
+##    paths:
+##      - "sbt-cache/.ivy/cache"
+##      - "sbt-cache/.boot"
+##      - "sbt-cache/.sbtboot"
+#  script:
+#    - sbt clean compile dist --supershell=false
+#  artifacts:
 #    paths:
-#      - "sbt-cache/.ivy/cache"
-#      - "sbt-cache/.boot"
-#      - "sbt-cache/.sbtboot"
-  script:
-    - sbt clean compile dist --supershell=false
-  artifacts:
-    paths:
-      - target/universal/
-
-docker-build:
-  stage: package
-  image: docker:stable
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay
-  script:
-    - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}
-    - docker build -t "$CI_REGISTRY_IMAGE:latest" .
-    - docker push "$CI_REGISTRY_IMAGE:latest"
+#      - target/universal/
+#
+#docker-build:
+#  stage: package
+#  image: docker:stable
+#  services:
+#    - docker:dind
+#  variables:
+#    DOCKER_DRIVER: overlay
+#  script:
+#    - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}
+#    - docker build -t "$CI_REGISTRY_IMAGE:latest" .
+#    - docker push "$CI_REGISTRY_IMAGE:latest"
 
 database-migrate:
   stage: migrate
   image:
     name: flyway/flyway:latest
     entrypoint: [""]
-  services:
-    - name: postgresql:11.0
-      alias: database
   variables:
     FLYWAY_EDITION: community
   before_script:
