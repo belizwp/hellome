@@ -60,6 +60,7 @@ deploy:
     - gcloud container clusters get-credentials $GKE_CLUSTER_NAME --zone $GKE_CLUSTER_COMPUTE_ZONE --project $GCP_PROJECT_ID
     - kubectl create secret --namespace=$KUBE_NAMESPACE docker-registry gitlab-registry --docker-server=$CI_REGISTRY --docker-username=$CI_REGISTRY_USER --docker-password=$CI_BUILD_TOKEN --docker-email=$GITLAB_USER_EMAIL --output yaml --dry-run > secret.yaml
     - kubectl apply -f secret.yaml
+    - kubectl patch serviceaccount ci -p '{"imagePullSecrets": [{"name": "gitlab-registry"}]}'
     - template=`cat "deploy.yaml.template" | sed "s@{{REGISTRY_IMAGE}}@$REGISTRY_IMAGE@"`
     - echo "$template" | kubectl apply -f -
   only:
