@@ -47,6 +47,7 @@ stages:
 
 deploy:
   stage: deploy
+  image: google/cloud-sdk:latest
   tags:
     - cluster
   variables:
