@@ -5,8 +5,9 @@ stages:
   - deploy
 
 variables:
+  REGISTRY: asia.gcr.io
   REGISTRY_HOST: https://asia.gcr.io
-  REGISTRY_IMAGE: "${REGISTRY_HOST}/GCP_PROJECT_ID/hellome"
+  REGISTRY_IMAGE: "${REGISTRY}/${GCP_PROJECT_ID}/hellome"
 
 build:
   stage: build
