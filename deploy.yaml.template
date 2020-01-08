@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: hellome-deployment
+  labels:
+    app: hellome
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hellome
+    spec:
+      containers:
+        - name: hellome
+          image: {{REGISTRY_IMAGE}}
+          ports:
+            - containerPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: hellome
+  ports:
+    - protocol: TCP
+      nodePort: 30163
+      port: 9000
+      targetPort: 9000
