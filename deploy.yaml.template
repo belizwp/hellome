@@ -17,8 +17,6 @@ spec:
           image: {{REGISTRY_IMAGE}}
           ports:
             - containerPort: 9000
-      imagePullSecrets:
-        - name: gitlab-registry
 
 ---
 apiVersion: v1
