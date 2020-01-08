@@ -58,13 +58,7 @@ deploy:
     - echo $GCLOUD_K8S_KEY > ${HOME}/gcloud-k8s-key.json
     - gcloud auth activate-service-account --key-file ${HOME}/gcloud-k8s-key.json
     - gcloud container clusters get-credentials $GKE_CLUSTER_NAME --zone $GKE_CLUSTER_COMPUTE_ZONE --project $GCP_PROJECT_ID
-    - kubectl create secret --namespace=$KUBE_NAMESPACE \
-      --docker-registry gitlab-registry \
-      --docker-server=$CI_REGISTRY \
-      --docker-username=$CI_REGISTRY_USER \
-      --docker-password=$CI_BUILD_TOKEN \
-      --docker-email=$GITLAB_USER_EMAIL \
-      --output yaml | kubectl apply -n $KUBE_NAMESPACE -f -
+    - kubectl create secret --namespace=$KUBE_NAMESPACE docker-registry gitlab-registry --docker-server=$CI_REGISTRY --docker-username=$CI_REGISTRY_USER --docker-password=$CI_BUILD_TOKEN --docker-email=$GITLAB_USER_EMAIL --output yaml --dry-run | kubectl apply -n $KUBE_NAMESPACE -f -
     - template=`cat "deploy.yaml.template" | sed "s@{{REGISTRY_IMAGE}}@$REGISTRY_IMAGE@"`
     - echo "$template" | kubectl apply -f -
   only:
