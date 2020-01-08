@@ -64,7 +64,7 @@ deploy:
       --docker-username=$CI_REGISTRY_USER \
       --docker-password=$CI_BUILD_TOKEN \
       --docker-email=$GITLAB_USER_EMAIL \
-      --output yaml --dry-run | kubectl apply -n $KUBERNETES_NAMESPACE -f -
+      --output yaml | kubectl apply -n $KUBERNETES_NAMESPACE -f -
     - template=`cat "deploy.yaml.template" | sed "s@{{REGISTRY_IMAGE}}@$REGISTRY_IMAGE@"`
     - echo "$template" | kubectl apply -f -
   only:
