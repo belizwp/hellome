@@ -40,7 +40,7 @@ database-migrate:
   stage: migrate
   image: docker:18.04
   services:
-    - docker:18.04.0-dind
+    - docker:18.04-dind
   variables:
     FLYWAY_EDITION: community
   script:
