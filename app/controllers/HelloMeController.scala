@@ -6,7 +6,7 @@ final class HelloMeController
   extends InjectedController {
 
   def index: Action[AnyContent] = Action {
-    Ok("Hello Me v2")
+    Ok("Hello Me v3")
   }
 
 }
