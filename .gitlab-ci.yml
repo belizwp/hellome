@@ -39,9 +39,6 @@ docker-build:
     - docker login -u _json_key --password-stdin $REGISTRY_HOST < ${HOME}/gcloud-service-key.json
     - docker build -t $REGISTRY_IMAGE .
     - docker push $REGISTRY_IMAGE
-#    - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}
-#    - docker build -t "$CI_REGISTRY_IMAGE:latest" .
-#    - docker push "$CI_REGISTRY_IMAGE:latest"
 
 database-migrate:
   stage: migrate
@@ -63,8 +60,6 @@ deploy:
     - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-k8s-key.json
     - gcloud auth activate-service-account --key-file ${HOME}/gcloud-k8s-key.json
     - gcloud container clusters get-credentials $GKE_CLUSTER_NAME --zone $GKE_CLUSTER_COMPUTE_ZONE --project $GCP_PROJECT_ID
-    - kubectl create secret --namespace=$KUBE_NAMESPACE docker-registry gitlab-registry --docker-server=$CI_REGISTRY --docker-username=$CI_REGISTRY_USER --docker-password=$CI_BUILD_TOKEN --docker-email=$GITLAB_USER_EMAIL --output yaml --dry-run > secret.yaml
-    - kubectl apply -f secret.yaml
     - template=`cat "deploy.yaml.template" | sed "s@{{REGISTRY_IMAGE}}@$REGISTRY_IMAGE@"`
     - echo "$template" | kubectl apply -f -
   only:
