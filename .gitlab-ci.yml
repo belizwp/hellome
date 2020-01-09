@@ -60,5 +60,3 @@ deploy:
     - gcloud container clusters get-credentials $GKE_CLUSTER_NAME --zone $GKE_CLUSTER_COMPUTE_ZONE --project $GCP_PROJECT_ID
     - template=`cat "deploy.yaml.template" | sed "s@{{REGISTRY_IMAGE}}@$REGISTRY_IMAGE@"`
     - echo "$template" | kubectl apply -f -
-  only:
-    - master
