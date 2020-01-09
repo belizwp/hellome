@@ -39,8 +39,6 @@ docker-build:
 database-migrate:
   stage: migrate
   image: docker:dind
-  services:
-    - docker:dind
   variables:
     FLYWAY_EDITION: community
   script:
