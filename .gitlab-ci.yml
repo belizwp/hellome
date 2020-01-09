@@ -29,7 +29,7 @@ build:
 
 docker-build:
   stage: package
-  image: docker:stable
+  image: ubuntu:18.04
   services:
     - docker:dind
   variables:
