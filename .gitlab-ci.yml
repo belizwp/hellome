@@ -38,7 +38,7 @@ variables:
 
 database-migrate:
   stage: migrate
-  image: docker:stable
+  image: docker:18.04
   services:
     - docker:18.04.0-dind
   variables:
