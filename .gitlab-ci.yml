@@ -11,7 +11,10 @@ variables:
 
   REGISTRY: asia.gcr.io
   REGISTRY_HOST: https://asia.gcr.io
-  REGISTRY_IMAGE: "${REGISTRY}/${GCP_PROJECT_ID}/hellome:latest"
+
+before_script:
+  - APP_VERSION=`grep 'version' ./conf/application.conf | cut -d '"' -f2`
+  - REGISTRY_IMAGE="${REGISTRY}/${GCP_PROJECT_ID}/hellome:${APP_VERSION}"
 
 build:
   stage: build
