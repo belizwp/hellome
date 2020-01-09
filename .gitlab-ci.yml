@@ -11,7 +11,7 @@ variables:
 
   REGISTRY: asia.gcr.io
   REGISTRY_HOST: https://asia.gcr.io
-  REGISTRY_IMAGE: "${REGISTRY}/${GCP_PROJECT_ID}/hellome"
+  REGISTRY_IMAGE: "${REGISTRY}/${GCP_PROJECT_ID}/hellome:latest"
 
 build:
   stage: build
