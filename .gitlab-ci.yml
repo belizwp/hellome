@@ -30,6 +30,8 @@ build:
 docker-build:
   stage: package
   image: docker:stable
+  services:
+    - docker:dind
   variables:
     DOCKER_DRIVER: overlay
   script:
