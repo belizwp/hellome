@@ -32,8 +32,6 @@ docker-build:
   image: docker:stable
   services:
     - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay
   script:
     - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
     - docker login -u _json_key --password-stdin $REGISTRY_HOST < ${HOME}/gcloud-service-key.json
