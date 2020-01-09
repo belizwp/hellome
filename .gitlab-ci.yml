@@ -22,7 +22,7 @@ build:
 #      - "sbt-cache/.boot"
 #      - "sbt-cache/.sbtboot"
   script:
-    - sbt clean compile dist --supershell=false
+    - sbt compile dist --supershell=false
   artifacts:
     paths:
       - target/universal/
@@ -41,6 +41,28 @@ docker-build:
     - docker push $REGISTRY_IMAGE
 
 database-migrate:
+  stage: migrate
+  image: docker:stable
+  services:
+    - docker:dind
+  variables:
+    FLYWAY_EDITION: community
+  script:
+    - docker pull flyway/flyway
+    - docker run --rm -v ${PWD}/sql:/flyway/sql flyway/flyway -url=jdbc:h2:mem:test -user=sa migrate
+
+database-migrate-para1:
+  stage: migrate
+  image: docker:stable
+  services:
+    - docker:dind
+  variables:
+    FLYWAY_EDITION: community
+  script:
+    - docker pull flyway/flyway
+    - docker run --rm -v ${PWD}/sql:/flyway/sql flyway/flyway -url=jdbc:h2:mem:test -user=sa migrate
+
+database-migrate-para2:
   stage: migrate
   image: docker:stable
   services:
