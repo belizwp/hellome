@@ -29,9 +29,7 @@ build:
 
 docker-build:
   stage: package
-  image: docker:stable
-  services:
-    - docker:dind
+  image: docker:dind
   script:
     - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
     - docker login -u _json_key --password-stdin $REGISTRY_HOST < ${HOME}/gcloud-service-key.json
@@ -40,7 +38,7 @@ docker-build:
 
 database-migrate:
   stage: migrate
-  image: docker:stable
+  image: docker:dind
   services:
     - docker:dind
   variables:
