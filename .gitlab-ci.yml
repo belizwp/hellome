@@ -29,9 +29,7 @@ build:
 
 docker-build:
   stage: package
-  image: ubuntu:18.04
-  services:
-    - docker:dind
+  image: docker:stable
   variables:
     DOCKER_DRIVER: overlay
   script:
@@ -43,8 +41,6 @@ docker-build:
 database-migrate:
   stage: migrate
   image: docker:stable
-  services:
-    - docker:dind
   variables:
     FLYWAY_EDITION: community
   script:
@@ -54,8 +50,6 @@ database-migrate:
 deploy:
   stage: deploy
   image: google/cloud-sdk:latest
-  services:
-    - docker:dind
   script:
     - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-k8s-key.json
     - gcloud auth activate-service-account --key-file ${HOME}/gcloud-k8s-key.json
