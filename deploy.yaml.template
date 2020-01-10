@@ -4,7 +4,7 @@ kind: Secret
 data:
   .dockerconfigjson: {{REGISTRY_AUTH}}
 metadata:
-  name: gitlab-registry
+  name: hellome-registry
 type: kubernetes.io/dockerconfigjson
 ---
 apiVersion: apps/v1beta1
@@ -25,7 +25,8 @@ spec:
           image: {{REGISTRY_IMAGE}}
           ports:
             - containerPort: 9000
-
+      imagePullSecrets:
+        - name: hellome-registry
 
 ---
 apiVersion: v1
