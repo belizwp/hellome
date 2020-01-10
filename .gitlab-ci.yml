@@ -14,7 +14,7 @@ variables:
 
 before_script:
   - APP_VERSION=`grep 'version' ./conf/application.conf | cut -d '"' -f2`
-  - REGISTRY_IMAGE="${REGISTRY}/${GCP_PROJECT_ID}/hellome:${APP_VERSION}"
+  - REGISTRY_IMAGE="$CI_REGISTRY_IMAGE:${APP_VERSION}"
 
 build:
   stage: build
@@ -34,14 +34,23 @@ build:
     paths:
       - target/universal/
 
+#docker-build:
+#  stage: package
+#  image: docker:stable
+#  services:
+#    - docker:dind
+#  script:
+#    - docker login -u _json_key --password-stdin custom_host < ${HOME}/gcloud-service-key.json
+#    - docker build -t $REGISTRY_IMAGE .
+#    - docker push $REGISTRY_IMAGE
+
 docker-build:
   stage: package
   image: docker:stable
   services:
     - docker:dind
   script:
-    - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-    - docker login -u _json_key --password-stdin custom_host < ${HOME}/gcloud-service-key.json
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build -t $REGISTRY_IMAGE .
     - docker push $REGISTRY_IMAGE
 
@@ -63,5 +72,5 @@ deploy:
     - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-k8s-key.json
     - gcloud auth activate-service-account --key-file ${HOME}/gcloud-k8s-key.json
     - gcloud container clusters get-credentials $GKE_CLUSTER_NAME --zone $GKE_CLUSTER_COMPUTE_ZONE --project $GCP_PROJECT_ID
-    - template=`cat "deploy.yaml.template" | sed "s@{{REGISTRY_IMAGE}}@$REGISTRY_IMAGE@"`
+    - template=`cat "deploy.yaml.template" | sed "s@{{REGISTRY_IMAGE}}@$REGISTRY_IMAGE@" | sed "s@{{REGISTRY_AUTH}}@$REGISTRY_AUTH@"`
     - echo "$template" | kubectl apply -f -
