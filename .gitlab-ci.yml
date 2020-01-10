@@ -41,7 +41,7 @@ docker-build:
     - docker:dind
   script:
     - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-    - docker login -u _json_key --password-stdin $REGISTRY_HOST < ${HOME}/gcloud-service-key.json
+    - docker login -u _json_key --password-stdin custom_host < ${HOME}/gcloud-service-key.json
     - docker build -t $REGISTRY_IMAGE .
     - docker push $REGISTRY_IMAGE
 
