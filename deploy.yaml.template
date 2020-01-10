@@ -5,7 +5,6 @@ data:
   .dockerconfigjson: {{REGISTRY_AUTH}}
 metadata:
   name: gitlab-registry
-  namespace: default2
 type: kubernetes.io/dockerconfigjson
 ---
 apiVersion: apps/v1beta1
