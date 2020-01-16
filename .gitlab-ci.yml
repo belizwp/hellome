@@ -23,7 +23,7 @@ build:
     SBT_VERSION: "1.3.4"
     SBT_OPTS: "-Dsbt.global.base=sbt-cache/.sbtboot -Dsbt.boot.directory=sbt-cache/.boot -Dsbt.ivy.home=sbt-cache/.ivy"
   cache:
-#    key: "$CI_BUILD_REF_NAME" # contains either the branch or the tag, so it's caching per branch
+#    key: "$CI_BUILD_REF_NAME" # contains either the branch or the tag, so it's caching per branch x
     untracked: true
     paths:
       - "sbt-cache/.ivy/cache"
