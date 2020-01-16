@@ -23,7 +23,7 @@ jobs:
         docker build -t hellome .
         
     - name: Push docker image
-      run:
+      run: |
         docker login docker.pkg.github.com -u belizwp -p "${GITHUB_PACKAGE_REGISTRY_TOKEN}"
         docker push docker.pkg.github.com/belizwp/hellome/app:latest
       env:
