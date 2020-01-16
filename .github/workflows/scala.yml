@@ -29,3 +29,14 @@ jobs:
         docker push docker.pkg.github.com/belizwp/hellome/app:latest
       env:
         GITHUB_PACKAGE_REGISTRY_TOKEN: ${{ secrets.GITHUB_PACKAGE_REGISTRY_TOKEN }}
+
+  migrate:
+    needs: [build]
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v1
+      - name: Miigrate using flyway
+        run:
+          docker run --rm -v ${PWD}/sql:/flyway/sql flyway/flyway -url=jdbc:h2:mem:test -user=sa migrate
