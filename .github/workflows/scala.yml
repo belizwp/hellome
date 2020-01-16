@@ -31,7 +31,7 @@ jobs:
         GITHUB_PACKAGE_REGISTRY_TOKEN: ${{ secrets.GITHUB_PACKAGE_REGISTRY_TOKEN }}
 
   migrate:
-    needs: [build]
+    needs: build
     
     runs-on: ubuntu-latest
     
