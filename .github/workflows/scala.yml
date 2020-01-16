@@ -22,3 +22,20 @@ jobs:
         name: app
         # Directory containing files to upload
         path: target/universal/
+
+  package:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        
+      - name: Download artifact
+        uses: actions/download-artifact@v1.0.0
+        with:
+          # Artifact name
+          name: app
+
+      - name: Containerize
+        run:
+          docker build -t hellome .
