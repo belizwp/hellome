@@ -14,25 +14,21 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-
-    - name: Build jar
-      run: sbt compile dist
     
     - name: Cache Coursier dependencies
       uses: actions/cache@v1
       with:
        path: ~/.cache/coursier
        key: ${{ runner.os }}-${{ github.ref }}-coursier
-       restore-keys: |
-        ${{ runner.os }}-${{ github.ref }}-coursier
         
     - name: Cache Ivy dependencies
       uses: actions/cache@v1
       with:
         path: ~/.ivy2/cache
         key: ${{ runner.os }}-${{ github.ref }}-ivy2
-        restore-keys: |
-         ${{ runner.os }}-${{ github.ref }}-ivy2
+        
+    - name: Build jar
+      run: sbt compile dist
 
     - name: Build docker image
       run:
