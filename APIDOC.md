@@ -2,7 +2,7 @@
 - Base url: TBD
 
 ### Some API
-- [`POST /book`](#POST /book)
+- [`POST /book`](#POST-/book)
 
 
 ---
